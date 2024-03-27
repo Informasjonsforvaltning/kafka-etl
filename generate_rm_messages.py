@@ -26,7 +26,8 @@ with open('./kafka_export.json') as kafka_export_file:
         harvester_meta = json.load(harvester_export_file)
         harvester_ids = list()
         for obj in harvester_meta:
-            harvester_ids.append(obj["fdkId"])
+            if obj.get("removed") is not True:
+                harvester_ids.append(obj["fdkId"])
 
         for kafka_id in kafka_ids:
             if kafka_id not in harvester_ids:
