@@ -33,6 +33,9 @@ with open('./kafka_export.json') as kafka_export_file:
             if kafka_id not in harvester_ids:
                 message_list.append(create_rm_message(kafka_id))
 
-messages = "\n".join(message_list)
-with open("messages.txt", 'w', encoding="utf-8") as messages_file:
-    messages_file.write(messages)
+file_count = 0
+while file_count + 500 < len(message_list):
+    messages = "\n".join(message_list[file_count:file_count + 499])
+    with open(f"messages_{file_count}.txt", 'w', encoding="utf-8") as messages_file:
+        messages_file.write(messages)
+    file_count = file_count + 500
